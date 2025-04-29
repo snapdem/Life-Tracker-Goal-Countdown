@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Tracker & Goal Countdown</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="live-clock">
+            <span id="live-time">00:00:00</span>
+            <span id="live-date">IST</span>
+        </div>
+        <div class="analog-clock">
+            <div class="clock-face">
+                <div class="clock-center"></div>
+                <div class="hour-hand"></div>
+                <div class="minute-hand"></div>
+                <div class="second-hand"></div>
+                <div class="marker marker-12"></div>
+                <div class="marker marker-3"></div>
+                <div class="marker marker-6"></div>
+                <div class="marker marker-9"></div>
+            </div>
+        </div>
+        <div class="theme-toggle">
+            <i class="fas fa-moon"></i>
+            <label class="switch">
+                <input type="checkbox" id="dark-mode-toggle">
+                <span class="slider round"></span>
+            </label>
+            <i class="fas fa-sun"></i>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Life Tracker & Goal Countdown</h1>
+        
+        <div id="user-info-container" class="section glass-effect">
+            <h2>Enter Your Information</h2>
+            <div class="form-group">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="date" id="dob">
+            </div>
+            <button id="save-info" class="btn-primary">Save Information</button>
+        </div>
+        
+        <div id="life-stats-container" class="section glass-effect hidden">
+            <h2>Your Life Stats</h2>
+            <div class="stat-cards">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-user"></i></div>
+                    <p>Hello, <span id="user-name">Friend</span>!</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <p>You are <span id="age-years">0</span> years, <span id="age-months">0</span> months, and <span id="age-days">0</span> days old.</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
+                    <p>That's <span id="total-days">0</span> days in total!</p>
+                </div>
+            </div>
+            <div class="quote-container">
+                <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                <p class="quote-text" id="quote-text">Loading quote...</p>
+                <p class="quote-author" id="quote-author"></p>
+            </div>
+        </div>
+        
+        <div id="goal-input-container" class="section glass-effect hidden">
+            <h2>Add a New Goal</h2>
+            <div class="form-group">
+                <label for="goal-title">Goal Title:</label>
+                <input type="text" id="goal-title" placeholder="E.g., Learn to play guitar">
+            </div>
+            <div class="form-group">
+                <label for="goal-age">Achieve by Age:</label>
+                <input type="number" id="goal-age" min="1" max="120" step="1" placeholder="Age to achieve this goal">
+            </div>
+            <button id="add-goal" class="btn-primary">Add Goal</button>
+        </div>
+        
+        <div id="goals-list-container" class="section glass-effect hidden">
+            <h2>Your Goals</h2>
+            <div class="goals-summary">
+                <div class="summary-item">
+                    <div class="summary-icon"><i class="fas fa-bullseye"></i></div>
+                    <p><span id="active-goals-count">0</span> Active Goals</p>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <p><span id="at-risk-goals-count">0</span> At Risk</p>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-icon"><i class="fas fa-trophy"></i></div>
+                    <p><span id="completed-goals-count">0</span> Completed</p>
+                </div>
+            </div>
+            <div id="goals-list" class="goals-grid">
+                <!-- Goals will be added here dynamically -->
+            </div>
+        </div>
+        
+        <div id="daily-tasks-container" class="section glass-effect hidden">
+            <h2>Today's Action Steps</h2>
+            <p class="section-subtitle">What will you do today to achieve your goals?</p>
+            
+            <div class="task-input-section">
+                <div class="form-group">
+                    <label for="task-goal-select">For Goal:</label>
+                    <select id="task-goal-select">
+                        <option value="">Select a goal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="task-title">Task:</label>
+                    <input type="text" id="task-title" placeholder="E.g., Practice for 30 minutes">
+                </div>
+                <button id="add-task" class="btn-primary">Add Task</button>
+            </div>
+            
+            <div id="tasks-list">
+                <!-- Tasks will be added here dynamically -->
+                <div class="no-tasks-message">No tasks added for today yet.</div>
+            </div>
+        </div>
+        
+        <div id="study-timer-container" class="section glass-effect hidden">
+            <h2>Focus Timer</h2>
+            <p class="section-subtitle">Track your dedicated time toward achieving your goals</p>
+            
+            <div class="timer-display">
+                <div class="timer-circle">
+                    <div class="timer-time">
+                        <span id="timer-minutes">25</span>:<span id="timer-seconds">00</span>
+                    </div>
+                    <div class="timer-label" id="timer-status">Ready</div>
+                </div>
+                
+                <div class="timer-controls">
+                    <button id="timer-start" class="timer-btn"><i class="fas fa-play"></i></button>
+                    <button id="timer-pause" class="timer-btn" disabled><i class="fas fa-pause"></i></button>
+                    <button id="timer-reset" class="timer-btn" disabled><i class="fas fa-undo"></i></button>
+                </div>
+                
+                <div class="timer-settings">
+                    <div class="form-group">
+                        <label for="timer-goal-select">Track time for:</label>
+                        <select id="timer-goal-select">
+                            <option value="">Select a goal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="timer-duration">Duration (minutes):</label>
+                        <input type="number" id="timer-duration" min="1" max="120" value="25">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timer-stats">
+                <h3>Today's Focus Time</h3>
+                <div id="focus-stats">
+                    <div class="focus-stat">
+                        <span class="focus-stat-label">Total Focus Time:</span>
+                        <span class="focus-stat-value" id="total-focus-time">0 minutes</span>
+                    </div>
+                    <div class="focus-stat">
+                        <span class="focus-stat-label">Sessions Completed:</span>
+                        <span class="focus-stat-value" id="sessions-completed">0</span>
+                    </div>
+                </div>
+                <div id="goal-focus-breakdown">
+                    <!-- Goal-specific focus time will be shown here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Life Tracker & Goal Countdown &copy; <span id="current-year"></span></p>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html> 
